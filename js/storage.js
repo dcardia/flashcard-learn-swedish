@@ -2,6 +2,7 @@ const CONFIG_KEY = "flashcards_config";
 const KNOWN_KEY = "flashcards_known";
 const REVIEW_KEY = "flashcards_review";
 const SENTENCES_KEY = "flashcards_my_sentences";
+const FILTERS_KEY = "flashcards_filters";
 
 function getConfig() {
   try {
@@ -97,6 +98,19 @@ function removeMySentence(id) {
   localStorage.setItem(SENTENCES_KEY, JSON.stringify(sentences));
 }
 
+function getFlashcardFilters() {
+  try {
+    const raw = localStorage.getItem(FILTERS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveFlashcardFilters(filters) {
+  localStorage.setItem(FILTERS_KEY, JSON.stringify(filters));
+}
+
 window.Storage = {
   getConfig,
   saveConfig,
@@ -111,4 +125,6 @@ window.Storage = {
   getMySentences,
   addMySentence,
   removeMySentence,
+  getFlashcardFilters,
+  saveFlashcardFilters,
 };

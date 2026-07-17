@@ -16,6 +16,50 @@ function getSelectedWordTypes() {
   );
 }
 
+function readFiltersFromDom() {
+  return {
+    unknownOnly: document.getElementById("flashcards-unknown-only").checked,
+    reviewOnly: document.getElementById("flashcards-review-only").checked,
+    prioritizeReview: document.getElementById("flashcards-prioritize-review")
+      .checked,
+    mostCommonOnly: document.getElementById("flashcards-most-common-only")
+      .checked,
+    cefrLevels: getSelectedCefrLevels(),
+    wordTypes: getSelectedWordTypes(),
+  };
+}
+
+function setCheckbox(id, value) {
+  const el = document.getElementById(id);
+  if (!el || typeof value !== "boolean") return;
+  el.checked = value;
+}
+
+function applyFiltersToDom(filters) {
+  if (!filters || typeof filters !== "object") return;
+
+  setCheckbox("flashcards-unknown-only", filters.unknownOnly);
+  setCheckbox("flashcards-review-only", filters.reviewOnly);
+  setCheckbox("flashcards-prioritize-review", filters.prioritizeReview);
+  setCheckbox("flashcards-most-common-only", filters.mostCommonOnly);
+
+  if (Array.isArray(filters.cefrLevels)) {
+    document.querySelectorAll(".flashcards-cefr-level").forEach((el) => {
+      el.checked = filters.cefrLevels.includes(el.value);
+    });
+  }
+
+  if (Array.isArray(filters.wordTypes)) {
+    document.querySelectorAll(".flashcards-word-type").forEach((el) => {
+      el.checked = filters.wordTypes.includes(el.value);
+    });
+  }
+}
+
+function persistFilters() {
+  Storage.saveFlashcardFilters(readFiltersFromDom());
+}
+
 function updateTypeFilterLabels() {
   document.querySelectorAll(".flashcards-type-label").forEach((el) => {
     el.textContent = I18n.typeLabel(el.dataset.type);
@@ -126,6 +170,7 @@ function applyContentFilters(all) {
 }
 
 function buildDeck() {
+  persistFilters();
 
   const unknownOnly = document.getElementById("flashcards-unknown-only").checked;
 
@@ -257,14 +302,63 @@ function getCurrentEntry() {
 function renderFlashcardExample(ex, lang) {
   const tenseLabel = ex.tenseLabel ? ex.tenseLabel[lang] : "";
   return `
-    <div class="example-block example-block--pending-reveal">
-      ${tenseLabel ? `<div class="example-tense">${Data.escapeHtml(tenseLabel)}</div>` : ""}
-      ${Data.renderExampleSv(ex.swedish)}
-      ${ex.translations[lang] ? `<div class="example-tr">${Data.escapeHtml(ex.translations[lang])}</div>` : ""}
-      <div class="token-panel" style="margin-top:0.5rem;">
-        ${Data.renderTokens(ex.tokens, lang)}
+    <div class="fc-examples-slide">
+      <div class="example-block example-block--pending-reveal">
+        ${tenseLabel ? `<div class="example-tense">${Data.escapeHtml(tenseLabel)}</div>` : ""}
+        ${Data.renderExampleSv(ex.swedish)}
+        ${ex.translations[lang] ? `<div class="example-tr">${Data.escapeHtml(ex.translations[lang])}</div>` : ""}
+        <div class="token-panel" style="margin-top:0.5rem;">
+          ${Data.renderTokens(ex.tokens, lang)}
+        </div>
       </div>
     </div>
+  `;
+}
+
+function syncExamplesCarousel(examplesEl) {
+  if (!examplesEl) return;
+  const track = examplesEl.querySelector(".fc-examples-track");
+  const dots = examplesEl.querySelectorAll(".fc-examples-dot");
+  if (!track || !dots.length) return;
+
+  const updateDots = () => {
+    const slideWidth = track.clientWidth || 1;
+    const index = Math.round(track.scrollLeft / slideWidth);
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === index);
+      dot.setAttribute("aria-current", i === index ? "true" : "false");
+    });
+  };
+
+  track.addEventListener("scroll", updateDots, { passive: true });
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const index = Number(dot.dataset.index) || 0;
+      track.scrollTo({ left: index * track.clientWidth, behavior: "smooth" });
+    });
+  });
+  updateDots();
+}
+
+function renderExamplesCarousel(examples, lang) {
+  const slides = examples.map((ex) => renderFlashcardExample(ex, lang)).join("");
+  const dots =
+    examples.length > 1
+      ? `<div class="fc-examples-dots" role="tablist" aria-label="Examples">
+          ${examples
+            .map(
+              (_, i) =>
+                `<button type="button" class="fc-examples-dot${i === 0 ? " is-active" : ""}" data-index="${i}" aria-label="Example ${i + 1}" ${i === 0 ? 'aria-current="true"' : ""}></button>`
+            )
+            .join("")}
+        </div>`
+      : "";
+
+  return `
+    <div class="fc-examples-track">
+      ${slides}
+    </div>
+    ${dots}
   `;
 }
 
@@ -336,9 +430,11 @@ function renderCard() {
 
   if (hasSentence) {
 
-    examplesEl.innerHTML = examples
-      .map((ex) => renderFlashcardExample(ex, lang))
-      .join("");
+    examplesEl.innerHTML = renderExamplesCarousel(examples, lang);
+    examplesEl.classList.toggle("fc-examples--multi", examples.length > 1);
+    const track = examplesEl.querySelector(".fc-examples-track");
+    if (track) track.scrollLeft = 0;
+    syncExamplesCarousel(examplesEl);
 
     Speech.syncSpeakButtons();
 
@@ -353,6 +449,7 @@ function renderCard() {
   } else {
 
     examplesEl.innerHTML = "";
+    examplesEl.classList.remove("fc-examples--multi");
 
     showSentenceBtn.classList.add("hidden");
 
@@ -598,6 +695,7 @@ function initFlashcards() {
   };
 
   initMobileFiltersCollapse();
+  applyFiltersToDom(Storage.getFlashcardFilters());
   initCefrFilterDropdown();
   initTypeFilterDropdown();
 

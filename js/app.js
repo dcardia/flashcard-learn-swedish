@@ -43,6 +43,7 @@ function showView(name, options = {}) {
   });
 
   if (syncHash) setViewHash(view);
+  setNavOpen(false);
 
   if (view === "flashcards") Flashcards.buildDeck();
   if (view === "library") Library.renderLibrary();
@@ -53,6 +54,60 @@ function showView(name, options = {}) {
     if (q) Search.applyQuery(q);
   }
   updateStats();
+}
+
+function setNavOpen(open) {
+  const toggle = document.getElementById("nav-menu-toggle");
+  const backdrop = document.getElementById("nav-backdrop");
+  document.body.classList.toggle("nav-open", open);
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", I18n.t(open ? "navMenuClose" : "navMenuOpen"));
+  }
+  if (backdrop) backdrop.hidden = !open;
+}
+
+function syncNavMount(isMobile) {
+  const nav = document.getElementById("main-nav");
+  const backdrop = document.getElementById("nav-backdrop");
+  const topbarInner = document.querySelector(".app-topbar-inner");
+  if (!nav || !backdrop || !topbarInner) return;
+
+  if (isMobile) {
+    // Portal overlays to <body> so position:fixed isn't trapped by the sticky topbar
+    document.body.appendChild(backdrop);
+    document.body.appendChild(nav);
+  } else {
+    topbarInner.appendChild(nav);
+    if (backdrop.parentElement !== document.body) {
+      document.body.appendChild(backdrop);
+    }
+    setNavOpen(false);
+  }
+}
+
+function initMobileNav() {
+  const toggle = document.getElementById("nav-menu-toggle");
+  const closeBtn = document.getElementById("nav-menu-close");
+  const backdrop = document.getElementById("nav-backdrop");
+  const mobileQuery = window.matchMedia("(max-width: 639px)");
+
+  const applyMount = () => syncNavMount(mobileQuery.matches);
+  applyMount();
+  mobileQuery.addEventListener("change", applyMount);
+
+  toggle?.addEventListener("click", () => {
+    setNavOpen(!document.body.classList.contains("nav-open"));
+  });
+  closeBtn?.addEventListener("click", () => setNavOpen(false));
+  backdrop?.addEventListener("click", () => setNavOpen(false));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+      setNavOpen(false);
+      toggle?.focus();
+    }
+  });
 }
 
 function updateGreeting() {
@@ -102,6 +157,7 @@ function showWelcomeIfNeeded() {
 
 function initApp() {
   Data.init();
+  initMobileNav();
 
   document.getElementById("main-nav").addEventListener("click", (e) => {
     const btn = e.target.closest(".nav-btn");
