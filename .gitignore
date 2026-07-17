@@ -1,0 +1,11 @@
+node_modules/
+.env
+
+# Build/tooling caches & local dictionaries (not needed for the static app)
+data/kelly-translation-cache.json
+data/dictionaries/*.sqlite3
+data/dictionaries/folkets_sv_en_public.xml
+
+# OS / editor
+.DS_Store
+*.swp

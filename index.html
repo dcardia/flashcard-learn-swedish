@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swedish Flashcards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="header-left">
+      <div class="app-brand">
+        <span class="material-symbols-outlined app-logo" aria-hidden="true">auto_stories</span>
+        <h1 class="app-title" data-i18n="appTitle">Swedish Flashcards</h1>
+      </div>
+      <span class="user-greeting" id="user-greeting"></span>
+    </div>
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="flashcards" aria-current="page">
+        <span class="material-symbols-outlined" aria-hidden="true">style</span>
+        <span class="btn-label" data-i18n="navFlashcards">Flashcards</span>
+      </button>
+      <button class="nav-btn" data-view="search">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <span class="btn-label" data-i18n="navSearch">Search</span>
+      </button>
+      <button class="nav-btn" data-view="library">
+        <span class="material-symbols-outlined" aria-hidden="true">bookmark</span>
+        <span class="btn-label" data-i18n="navLibrary">My Words</span>
+      </button>
+      <button class="nav-btn" data-view="review">
+        <span class="material-symbols-outlined" aria-hidden="true">replay</span>
+        <span class="btn-label" data-i18n="navReview">Review</span>
+      </button>
+      <button class="nav-btn" data-view="sentences">
+        <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
+        <span class="btn-label" data-i18n="navSentences">My Sentences</span>
+      </button>
+      <button class="nav-btn" data-view="settings">
+        <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+        <span class="btn-label" data-i18n="navSettings">Settings</span>
+      </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app-main">
+    <!-- Flashcards -->
+    <section id="view-flashcards" class="view active">
+      <div class="flashcards-toolbar">
+        <div class="flashcards-filters">
+          <label class="filter-toggle">
+            <span class="material-symbols-outlined filter-icon" aria-hidden="true">filter_alt</span>
+            <input type="checkbox" id="flashcards-unknown-only">
+            <span data-i18n="flashcardsUnknownOnly">Only unknown words</span>
+          </label>
+          <label class="filter-toggle">
+            <span class="material-symbols-outlined filter-icon" aria-hidden="true">playlist_add_check</span>
+            <input type="checkbox" id="flashcards-review-only">
+            <span data-i18n="flashcardsReviewOnly">Only review list</span>
+          </label>
+          <label class="filter-toggle">
+            <span class="material-symbols-outlined filter-icon" aria-hidden="true">low_priority</span>
+            <input type="checkbox" id="flashcards-prioritize-review" checked>
+            <span data-i18n="flashcardsPrioritizeReview">Prioritize review list</span>
+          </label>
+          <label class="filter-toggle">
+            <span class="material-symbols-outlined filter-icon" aria-hidden="true">trending_up</span>
+            <input type="checkbox" id="flashcards-most-common-only">
+            <span data-i18n="flashcardsMostCommonOnly">Most common words</span>
+          </label>
+          <div class="filter-dropdown" id="flashcards-cefr-filter">
+            <button
+              type="button"
+              class="filter-toggle filter-dropdown__trigger"
+              id="flashcards-cefr-trigger"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="flashcards-cefr-panel"
+            >
+              <span class="material-symbols-outlined filter-icon" aria-hidden="true">school</span>
+              <span data-i18n="flashcardsCefrFilter">CEFR level</span>
+              <span class="filter-dropdown__badge hidden" id="flashcards-cefr-badge" aria-hidden="true"></span>
+              <span class="material-symbols-outlined filter-dropdown__chevron" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="filter-dropdown__panel hidden" id="flashcards-cefr-panel">
+              <fieldset class="filter-dropdown__fieldset">
+                <legend class="filter-dropdown__legend" data-i18n="flashcardsCefrLegend">CEFR level</legend>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="A1">
+                  <span>A1</span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="A2">
+                  <span>A2</span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="B1">
+                  <span>B1</span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="B2">
+                  <span>B2</span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="C1">
+                  <span>C1</span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-cefr-level" value="C2">
+                  <span>C2</span>
+                </label>
+              </fieldset>
+            </div>
+          </div>
+          <div class="filter-dropdown" id="flashcards-type-filter">
+            <button
+              type="button"
+              class="filter-toggle filter-dropdown__trigger"
+              id="flashcards-type-trigger"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="flashcards-type-panel"
+            >
+              <span class="material-symbols-outlined filter-icon" aria-hidden="true">category</span>
+              <span data-i18n="flashcardsTypeFilter">Word type</span>
+              <span class="filter-dropdown__badge hidden" id="flashcards-type-badge" aria-hidden="true"></span>
+              <span class="material-symbols-outlined filter-dropdown__chevron" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="filter-dropdown__panel filter-dropdown__panel--scroll hidden" id="flashcards-type-panel">
+              <fieldset class="filter-dropdown__fieldset">
+                <legend class="filter-dropdown__legend" data-i18n="flashcardsTypeLegend">Word type</legend>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="verb" checked>
+                  <span class="flashcards-type-label" data-type="verb"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="adjective" checked>
+                  <span class="flashcards-type-label" data-type="adjective"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="adverb" checked>
+                  <span class="flashcards-type-label" data-type="adverb"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="noun" checked>
+                  <span class="flashcards-type-label" data-type="noun"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="numeral">
+                  <span class="flashcards-type-label" data-type="numeral"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="preposition">
+                  <span class="flashcards-type-label" data-type="preposition"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="pronoun">
+                  <span class="flashcards-type-label" data-type="pronoun"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="proper name">
+                  <span class="flashcards-type-label" data-type="proper name"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="conjunction">
+                  <span class="flashcards-type-label" data-type="conjunction"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="interjection">
+                  <span class="flashcards-type-label" data-type="interjection"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="particle">
+                  <span class="flashcards-type-label" data-type="particle"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="determiner">
+                  <span class="flashcards-type-label" data-type="determiner"></span>
+                </label>
+                <label class="filter-dropdown__option">
+                  <input type="checkbox" class="flashcards-word-type" value="other">
+                  <span class="flashcards-type-label" data-type="other"></span>
+                </label>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="flashcards-status" id="flashcards-counter" aria-live="polite"></p>
+      <div class="flashcard-container" id="flashcard-container">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-front">
+            <div class="flashcard-meta">
+              <span class="word-type" id="fc-type"></span>
+              <span class="word-cefr hidden" id="fc-cefr"></span>
+            </div>
+            <div class="swedish-word-row">
+              <h2 class="swedish-word" id="fc-word"></h2>
+              <button
+                type="button"
+                class="speak-btn"
+                id="fc-speak"
+                data-i18n-aria="speakSwedish"
+                aria-label="Listen to pronunciation"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">volume_up</span>
+              </button>
+            </div>
+          </div>
+          <div class="flashcard-sentence hidden" id="fc-sentence-block">
+            <div class="fc-examples" id="fc-examples"></div>
+          </div>
+          <div class="flashcard-details hidden" id="fc-details">
+            <p class="word-translation" id="fc-translation"></p>
+            <p class="usage-note hidden" id="fc-usage-note"></p>
+          </div>
+        </div>
+        <div class="flashcard-actions">
+          <div class="flashcard-actions__study">
+            <button class="btn btn-primary" id="fc-show-sentence">
+              <span class="material-symbols-outlined" aria-hidden="true">chat_bubble</span>
+              <span class="btn-label" data-i18n="showSentence">Show sentence</span>
+            </button>
+            <button class="btn btn-primary hidden" id="fc-reveal">
+              <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+              <span class="btn-label" data-i18n="reveal">Reveal translation</span>
+            </button>
+            <button class="btn btn-success" id="fc-known">
+              <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+              <span class="btn-label" data-i18n="markKnown">Mark as known</span>
+            </button>
+            <button class="btn btn-warning" id="fc-review">
+              <span class="material-symbols-outlined" aria-hidden="true">replay</span>
+              <span class="btn-label" data-i18n="addToReview">Add to review</span>
+            </button>
+          </div>
+          <div class="flashcard-actions__nav">
+            <button class="btn btn-secondary" id="fc-prev">
+              <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+              <span class="btn-label" data-i18n="prev">Previous</span>
+            </button>
+            <button class="btn btn-secondary" id="fc-next">
+              <span class="btn-label" data-i18n="next">Next</span>
+              <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state hidden" id="flashcards-empty">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">menu_book</span>
+        <p data-i18n="flashcardsEmpty">No words to practice. Try disabling the filter or add words from search.</p>
+      </div>
+      <div class="empty-state hidden" id="flashcards-empty-review">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">playlist_add</span>
+        <p data-i18n="flashcardsEmptyReview">Your review list is empty. Add words from Search or while practicing flashcards.</p>
+      </div>
+    </section>
+
+    <!-- Search -->
+    <section id="view-search" class="view hidden">
+      <div class="search-bar">
+        <div class="search-input-wrap">
+          <span class="material-symbols-outlined search-icon" aria-hidden="true">search</span>
+          <input type="search" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="Search Swedish word or translation...">
+        </div>
+        <p class="search-hint">
+          <span class="material-symbols-outlined hint-icon" aria-hidden="true">info</span>
+          <span data-i18n="searchHint">Lemma-aware: searching a verb finds all its conjugated forms in sentences.</span>
+        </p>
+      </div>
+      <div id="search-results" class="results-list"></div>
+      <div class="empty-state hidden" id="search-empty">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">search_off</span>
+        <p data-i18n="searchEmpty">No results found.</p>
+      </div>
+    </section>
+
+    <!-- Library -->
+    <section id="view-library" class="view hidden">
+      <div class="search-bar">
+        <div class="search-input-wrap">
+          <span class="material-symbols-outlined search-icon" aria-hidden="true">filter_list</span>
+          <input type="search" id="library-search" data-i18n-placeholder="librarySearchPlaceholder" placeholder="Filter known words...">
+        </div>
+      </div>
+      <div id="library-list" class="results-list"></div>
+      <div id="library-detail" class="detail-panel hidden"></div>
+      <div class="empty-state hidden" id="library-empty">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">bookmark_add</span>
+        <p data-i18n="libraryEmpty">No known words yet. Mark words as known while practicing flashcards.</p>
+      </div>
+    </section>
+
+    <!-- Review -->
+    <section id="view-review" class="view hidden">
+      <div class="search-bar">
+        <div class="search-input-wrap">
+          <span class="material-symbols-outlined search-icon" aria-hidden="true">filter_list</span>
+          <input type="search" id="review-search" data-i18n-placeholder="reviewSearchPlaceholder" placeholder="Filter review words...">
+        </div>
+      </div>
+      <div id="review-list" class="results-list"></div>
+      <div id="review-detail" class="detail-panel hidden"></div>
+      <div class="empty-state hidden" id="review-empty">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">playlist_add</span>
+        <p data-i18n="reviewEmpty">No words in your review list yet. Add words from Search or while practicing flashcards.</p>
+      </div>
+    </section>
+
+    <!-- My Sentences -->
+    <section id="view-sentences" class="view hidden">
+      <form id="sentences-form" class="sentences-form">
+        <label class="sentences-form__label" for="sentences-input" data-i18n="sentencesAddLabel">Add a Swedish sentence</label>
+        <textarea
+          id="sentences-input"
+          class="sentences-form__input"
+          rows="3"
+          data-i18n-placeholder="sentencesAddPlaceholder"
+          placeholder="Type a Swedish sentence..."
+          required
+        ></textarea>
+        <button type="submit" class="btn btn-primary sentences-form__submit">
+          <span class="material-symbols-outlined" aria-hidden="true">add</span>
+          <span class="btn-label" data-i18n="sentencesAddButton">Add sentence</span>
+        </button>
+      </form>
+      <p class="sentences-hint">
+        <span class="material-symbols-outlined hint-icon" aria-hidden="true">info</span>
+        <span data-i18n="sentencesHint">Tap highlighted words to see translations and add them to My Words or Review.</span>
+      </p>
+      <div id="sentences-list" class="sentences-list"></div>
+      <div class="empty-state hidden" id="sentences-empty">
+        <span class="material-symbols-outlined empty-icon" aria-hidden="true">edit_note</span>
+        <p data-i18n="sentencesEmpty">No sentences yet. Add one above to start building your personal list.</p>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="view-settings" class="view hidden">
+      <form id="settings-form" class="settings-form">
+        <div class="section-heading">
+          <span class="material-symbols-outlined section-icon" aria-hidden="true">tune</span>
+          <h2 data-i18n="settingsTitle">Your settings</h2>
+        </div>
+        <label>
+          <span class="label-text">
+            <span class="material-symbols-outlined label-icon" aria-hidden="true">person</span>
+            <span data-i18n="settingsName">Your name</span>
+          </span>
+          <input type="text" id="settings-name" required autocomplete="name">
+        </label>
+        <label>
+          <span class="label-text">
+            <span class="material-symbols-outlined label-icon" aria-hidden="true">translate</span>
+            <span data-i18n="settingsLanguage">Interface language</span>
+          </span>
+          <select id="settings-language">
+            <option value="en">English</option>
+            <option value="pt">Português (Brasil)</option>
+          </select>
+        </label>
+        <button type="submit" class="btn btn-primary">
+          <span class="material-symbols-outlined" aria-hidden="true">save</span>
+          <span class="btn-label" data-i18n="settingsSave">Save</span>
+        </button>
+      </form>
+      <div class="settings-stats">
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon" aria-hidden="true">library_books</span>
+          <div>
+            <span class="stat-label" data-i18n="statsTotal">Total vocabulary</span>
+            <strong class="stat-value" id="stats-total">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon" aria-hidden="true">verified</span>
+          <div>
+            <span class="stat-label" data-i18n="statsKnown">Words you know</span>
+            <strong class="stat-value" id="stats-known">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon" aria-hidden="true">replay</span>
+          <div>
+            <span class="stat-label" data-i18n="statsReview">Words to review</span>
+            <strong class="stat-value" id="stats-review">0</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="welcome-wizard" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+    <div class="modal-content wizard-content">
+      <div class="wizard-progress" id="wizard-progress" aria-hidden="true">
+        <span class="wizard-dot active" data-step="0"></span>
+        <span class="wizard-dot" data-step="1"></span>
+        <span class="wizard-dot" data-step="2"></span>
+      </div>
+
+      <!-- Step 1: Intro -->
+      <div class="wizard-step active" id="wizard-step-0" data-step="0">
+        <span class="material-symbols-outlined modal-icon" aria-hidden="true">auto_stories</span>
+        <h2 id="wizard-title">Swedish Flashcards</h2>
+        <div class="wizard-intro-bilingual">
+          <p class="wizard-intro-block">
+            <span class="wizard-lang-tag">EN</span>
+            A tool to help you learn <strong>Swedish</strong> vocabulary with flashcards, example sentences, and smart search. Track words you know and build a personal review list — everything stays in your browser.
+          </p>
+          <p class="wizard-intro-block">
+            <span class="wizard-lang-tag">PT</span>
+            Uma ferramenta para aprender vocabulário em <strong>sueco</strong> com flashcards, frases de exemplo e busca inteligente. Marque palavras que você já sabe e monte uma lista de revisão — tudo fica salvo no seu navegador.
+          </p>
+        </div>
+        <button type="button" class="btn btn-primary" id="wizard-next-0">
+          <span class="btn-label" data-i18n="wizardContinue">Continue</span>
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Step 2: Language -->
+      <div class="wizard-step hidden" id="wizard-step-1" data-step="1">
+        <span class="material-symbols-outlined modal-icon" aria-hidden="true">translate</span>
+        <h2 data-i18n="wizardLanguageTitle">Choose your language</h2>
+        <p data-i18n="wizardLanguageText">Select the language for menus, buttons, and labels in the app.</p>
+        <div class="wizard-lang-options" role="group" aria-label="Interface language">
+          <button type="button" class="wizard-lang-btn" data-lang="en" id="wizard-lang-en">
+            <span class="material-symbols-outlined" aria-hidden="true">language</span>
+            <span class="wizard-lang-label">English</span>
+          </button>
+          <button type="button" class="wizard-lang-btn" data-lang="pt" id="wizard-lang-pt">
+            <span class="material-symbols-outlined" aria-hidden="true">language</span>
+            <span class="wizard-lang-label">Português (Brasil)</span>
+          </button>
+        </div>
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" id="wizard-back-1">
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+            <span class="btn-label" data-i18n="wizardBack">Back</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Name -->
+      <div class="wizard-step hidden" id="wizard-step-2" data-step="2">
+        <span class="material-symbols-outlined modal-icon" aria-hidden="true">person</span>
+        <h2 data-i18n="wizardNameTitle">What's your name?</h2>
+        <p data-i18n="wizardNameText">We'll use it to greet you in the app. You can change it later in Settings.</p>
+        <form id="wizard-form" class="wizard-form">
+          <label>
+            <span class="label-text">
+              <span class="material-symbols-outlined label-icon" aria-hidden="true">badge</span>
+              <span data-i18n="settingsName">Your name</span>
+            </span>
+            <input type="text" id="wizard-name" required autocomplete="name" maxlength="80">
+          </label>
+          <div class="wizard-nav">
+            <button type="button" class="btn btn-secondary" id="wizard-back-2">
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+              <span class="btn-label" data-i18n="wizardBack">Back</span>
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span class="material-symbols-outlined" aria-hidden="true">rocket_launch</span>
+              <span class="btn-label" data-i18n="welcomeStart">Start learning</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/vocabulary-data.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/tokens.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/library.js"></script>
+  <script src="js/review.js"></script>
+  <script src="js/sentences.js"></script>
+  <script src="js/welcome-wizard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "flashcards-app",
+  "version": "1.0.0",
+  "description": "A simple flashcard app for learning Swedish vocabulary. Built with plain HTML, CSS, and JavaScript — no frameworks.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/run-build.js",
+    "build:offline": "node scripts/run-build.js --report",
+    "build:quick": "node scripts/migrate-vocabulary.js && node scripts/build-vocabulary.js",
+    "build:migrate": "node scripts/migrate-vocabulary.js --report",
+    "enrich": "node scripts/enrich-vocabulary.js && node scripts/build-vocabulary.js",
+    "enrich:sentences": "node scripts/enrich-sentences.js",
+    "enrich:sentence-tokens": "node scripts/enrich-sentence-tokens.js",
+    "build:translate": "node scripts/translate-vocabulary.js && node scripts/build-vocabulary.js",
+    "build:folkets": "node scripts/build-folkets-index.js",
+    "translate": "node scripts/translate-vocabulary.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

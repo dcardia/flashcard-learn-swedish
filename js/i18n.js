@@ -1,0 +1,226 @@
+const STRINGS = {
+  en: {
+    appTitle: "Swedish Flashcards",
+    navFlashcards: "Flashcards",
+    navSearch: "Search",
+    navLibrary: "My Words",
+    navReview: "Review",
+    navSentences: "My Sentences",
+    navSettings: "Settings",
+    flashcardsUnknownOnly: "Only unknown words",
+    flashcardsReviewOnly: "Only review list",
+    flashcardsPrioritizeReview: "Prioritize review list",
+    flashcardsMostCommonOnly: "Most common words",
+    flashcardsCefrFilter: "CEFR level",
+    flashcardsCefrLegend: "CEFR level",
+    flashcardsTypeFilter: "Word type",
+    flashcardsCounter: "Word #{current} out of {total} available in your selection",
+    flashcardsTypeLegend: "Word type",
+    showSentence: "Show sentence",
+    showSentences: "Show sentences",
+    speakSwedish: "Listen to Swedish pronunciation",
+    speakSentence: "Listen to full sentence",
+    reveal: "Reveal translation",
+    markKnown: "Mark as known",
+    markedKnown: "Known ✓",
+    prev: "Previous",
+    next: "Next",
+    flashcardsEmpty: "No words to practice. Try disabling the filter or explore vocabulary in Search.",
+    flashcardsEmptyReview: "Your review list is empty. Add words from Search or while practicing flashcards.",
+    searchPlaceholder: "Search Swedish word or translation...",
+    searchHint: "Lemma-aware: searching a verb finds all its conjugated forms in sentences.",
+    searchEmpty: "No results found.",
+    librarySearchPlaceholder: "Filter known words...",
+    libraryEmpty: "No known words yet. Mark words as known while practicing flashcards.",
+    reviewSearchPlaceholder: "Filter review words...",
+    reviewEmpty: "No words in your review list yet. Add words from Search or while practicing flashcards.",
+    sentencesAddLabel: "Add a Swedish sentence",
+    sentencesAddPlaceholder: "Type a Swedish sentence...",
+    sentencesAddButton: "Add sentence",
+    sentencesHint: "Tap highlighted words to see translations and add them to My Words or Review.",
+    sentencesEmpty: "No sentences yet. Add one above to start building your personal list.",
+    sentencesDelete: "Delete",
+    settingsTitle: "Your settings",
+    settingsName: "Your name",
+    settingsLanguage: "Interface language",
+    settingsSave: "Save",
+    statsTotal: "Total vocabulary",
+    statsKnown: "Words you know",
+    statsReview: "Words to review",
+    welcomeTitle: "Welcome!",
+    welcomeText: "Set your name and preferred language to get started.",
+    welcomeStart: "Start learning",
+    wizardContinue: "Continue",
+    wizardBack: "Back",
+    wizardLanguageTitle: "Choose your language",
+    wizardLanguageText:
+      "Select the language for menus, buttons, and labels in the app.",
+    wizardNameTitle: "What's your name?",
+    wizardNameText:
+      "We'll use it to greet you in the app. You can change it later in Settings.",
+    greeting: "Hi, {name}!",
+    typeVerb: "verb",
+    typeAdjective: "adjective",
+    typeAdverb: "adverb",
+    forms: "Forms",
+    examples: "Examples",
+    markAsKnown: "Mark as known",
+    removeFromKnown: "Remove from known",
+    addToReview: "Add to review",
+    inReviewList: "In review list ✓",
+    removeFromReview: "Remove from review",
+    sentenceBreakdown: "Word breakdown",
+    tokenLookupAria: "Look up this word in Search",
+    tokenMenuAria: "Word options",
+    tokenViewEntry: "View word entry",
+    usageNote: "Usage",
+    of: "of",
+    typeNoun: "noun",
+    typeNumeral: "numeral",
+    typePreposition: "preposition",
+    typePronoun: "pronoun",
+    typeProperName: "proper name",
+    typeConjunction: "conjunction",
+    typeInterjection: "interjection",
+    typeParticle: "particle",
+    typeDeterminer: "determiner",
+    typeOther: "other",
+  },
+  pt: {
+    appTitle: "Flashcards de Sueco",
+    navFlashcards: "Flashcards",
+    navSearch: "Buscar",
+    navLibrary: "Minhas Palavras",
+    navReview: "Revisar",
+    navSentences: "Minhas Frases",
+    navSettings: "Configurações",
+    flashcardsUnknownOnly: "Apenas palavras desconhecidas",
+    flashcardsReviewOnly: "Apenas lista de revisão",
+    flashcardsPrioritizeReview: "Priorizar lista de revisão",
+    flashcardsMostCommonOnly: "Palavras mais comuns",
+    flashcardsCefrFilter: "Nível CEFR",
+    flashcardsCefrLegend: "Nível CEFR",
+    flashcardsTypeFilter: "Tipo de palavra",
+    flashcardsCounter: "Palavra #{current} de {total} disponíveis na sua seleção",
+    flashcardsTypeLegend: "Tipo de palavra",
+    showSentence: "Mostrar frase",
+    showSentences: "Mostrar frases",
+    speakSwedish: "Ouvir pronúncia em sueco",
+    speakSentence: "Ouvir frase completa",
+    reveal: "Revelar tradução",
+    markKnown: "Marcar como conhecida",
+    markedKnown: "Conhecida ✓",
+    prev: "Anterior",
+    next: "Próxima",
+    flashcardsEmpty: "Nenhuma palavra para praticar. Desative o filtro ou explore o vocabulário em Buscar.",
+    flashcardsEmptyReview: "Sua lista de revisão está vazia. Adicione palavras em Buscar ou nos flashcards.",
+    searchPlaceholder: "Buscar palavra em sueco ou tradução...",
+    searchHint: "Busca por lema: ao buscar um verbo, encontra todas as formas conjugadas nas frases.",
+    searchEmpty: "Nenhum resultado encontrado.",
+    librarySearchPlaceholder: "Filtrar palavras conhecidas...",
+    libraryEmpty: "Nenhuma palavra conhecida ainda. Marque palavras como conhecidas nos flashcards.",
+    reviewSearchPlaceholder: "Filtrar palavras para revisar...",
+    reviewEmpty: "Nenhuma palavra na lista de revisão. Adicione palavras em Buscar ou nos flashcards.",
+    sentencesAddLabel: "Adicionar uma frase em sueco",
+    sentencesAddPlaceholder: "Digite uma frase em sueco...",
+    sentencesAddButton: "Adicionar frase",
+    sentencesHint: "Toque nas palavras destacadas para ver traduções e adicioná-las a Minhas Palavras ou Revisar.",
+    sentencesEmpty: "Nenhuma frase ainda. Adicione uma acima para começar sua lista pessoal.",
+    sentencesDelete: "Excluir",
+    settingsTitle: "Suas configurações",
+    settingsName: "Seu nome",
+    settingsLanguage: "Idioma da interface",
+    settingsSave: "Salvar",
+    statsTotal: "Vocabulário total",
+    statsKnown: "Palavras que você sabe",
+    statsReview: "Palavras para revisar",
+    welcomeTitle: "Bem-vindo!",
+    welcomeText: "Defina seu nome e idioma preferido para começar.",
+    welcomeStart: "Começar a aprender",
+    wizardContinue: "Continuar",
+    wizardBack: "Voltar",
+    wizardLanguageTitle: "Escolha seu idioma",
+    wizardLanguageText:
+      "Selecione o idioma dos menus, botões e textos do aplicativo.",
+    wizardNameTitle: "Qual é o seu nome?",
+    wizardNameText:
+      "Usaremos para cumprimentar você no app. Você pode alterar depois em Configurações.",
+    greeting: "Olá, {name}!",
+    typeVerb: "verbo",
+    typeAdjective: "adjetivo",
+    typeAdverb: "advérbio",
+    forms: "Formas",
+    examples: "Exemplos",
+    markAsKnown: "Marcar como conhecida",
+    removeFromKnown: "Remover das conhecidas",
+    addToReview: "Adicionar à revisão",
+    inReviewList: "Na lista de revisão ✓",
+    removeFromReview: "Remover da revisão",
+    sentenceBreakdown: "Palavra por palavra",
+    tokenLookupAria: "Buscar esta palavra",
+    tokenMenuAria: "Opções da palavra",
+    tokenViewEntry: "Ver entrada da palavra",
+    usageNote: "Uso",
+    of: "de",
+    typeNoun: "substantivo",
+    typeNumeral: "numeral",
+    typePreposition: "preposição",
+    typePronoun: "pronome",
+    typeProperName: "nome próprio",
+    typeConjunction: "conjunção",
+    typeInterjection: "interjeição",
+    typeParticle: "partícula",
+    typeDeterminer: "determinante",
+    typeOther: "outro",
+  },
+};
+
+let currentLang = "en";
+
+function t(key, vars = {}) {
+  const str = STRINGS[currentLang]?.[key] ?? STRINGS.en[key] ?? key;
+  return str.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
+}
+
+function setLanguage(lang) {
+  currentLang = lang === "pt" ? "pt" : "en";
+  document.documentElement.lang = currentLang === "pt" ? "pt-BR" : "en";
+  applyI18n();
+}
+
+function getLanguage() {
+  return currentLang;
+}
+
+function applyI18n() {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    el.setAttribute("aria-label", t(el.dataset.i18nAria));
+  });
+}
+
+function typeLabel(type) {
+  const map = {
+    verb: "typeVerb",
+    adjective: "typeAdjective",
+    adverb: "typeAdverb",
+    noun: "typeNoun",
+    numeral: "typeNumeral",
+    preposition: "typePreposition",
+    pronoun: "typePronoun",
+    "proper name": "typeProperName",
+    conjunction: "typeConjunction",
+    interjection: "typeInterjection",
+    particle: "typeParticle",
+    determiner: "typeDeterminer",
+    other: "typeOther",
+  };
+  return t(map[type] || "typeOther");
+}
+
+window.I18n = { t, setLanguage, getLanguage, applyI18n, typeLabel };
