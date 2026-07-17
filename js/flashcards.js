@@ -554,6 +554,17 @@ function speakCurrentWord() {
 
 
 
+function initMobileFiltersCollapse() {
+  const shell = document.getElementById("flashcards-filters-shell");
+  const toggle = document.getElementById("flashcards-filters-toggle");
+  if (!shell || !toggle) return;
+
+  toggle.addEventListener("click", () => {
+    const open = shell.classList.toggle("flashcards-filters-shell--open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+}
+
 function initFlashcards() {
 
   Speech.initSpeech();
@@ -586,6 +597,7 @@ function initFlashcards() {
     updateTypeFilterLabels();
   };
 
+  initMobileFiltersCollapse();
   initCefrFilterDropdown();
   initTypeFilterDropdown();
 

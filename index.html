@@ -53,7 +53,19 @@
     <!-- Flashcards -->
     <section id="view-flashcards" class="view active">
       <div class="flashcards-toolbar">
-        <div class="flashcards-filters">
+        <div class="flashcards-filters-shell" id="flashcards-filters-shell">
+          <button
+            type="button"
+            class="filter-toggle flashcards-filters-toggle"
+            id="flashcards-filters-toggle"
+            aria-expanded="false"
+            aria-controls="flashcards-filters"
+          >
+            <span class="material-symbols-outlined filter-icon" aria-hidden="true">filter_alt</span>
+            <span data-i18n="flashcardsFilters">Filters</span>
+            <span class="material-symbols-outlined flashcards-filters-chevron" aria-hidden="true">expand_more</span>
+          </button>
+        <div class="flashcards-filters" id="flashcards-filters">
           <label class="filter-toggle">
             <span class="material-symbols-outlined filter-icon" aria-hidden="true">filter_alt</span>
             <input type="checkbox" id="flashcards-unknown-only">
@@ -190,6 +202,7 @@
               </fieldset>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <p class="flashcards-status" id="flashcards-counter" aria-live="polite"></p>
